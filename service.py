@@ -101,7 +101,7 @@ def extract_concepts(input):
             int_matches = update_matches(start, end, match_all_id, int_matches)
     for match in int_matches:
         final_matches.append(match)
-    return {"text": text, "matches": final_matches}
+    return final_matches, text
 
 load_concepts()
 
@@ -109,9 +109,13 @@ app = Flask(__name__)
 
 @app.route("/", methods=['POST'])
 def main():
-    input_text = request.get_json()["text"]
-    print(input_text)
-    resp = Response(json.dumps(extract_concepts(input_text)), mimetype='application/json')
+    input_array = request.get_json()
+    returned_response = []
+    for next_task in input_array:
+        input_text = next_task["text"]
+        next_task["matches"], next_task["clean_text"] = extract_concepts(input_text)
+        returned_response.append(next_task)
+    resp = Response(json.dumps(returned_response), mimetype='application/json')
     return resp
 
 app.run(host="0.0.0.0", port=5000)
