@@ -1,5 +1,5 @@
 # SpaCy concept extraction
-A simple spaCy-based concept extraction API, involving a dictionary of relevant concepts.
+A simple spaCy-based concept extraction API, involving a (possibly SKOS-based) dictionary of relevant concepts.
 
 ## Example usage
 
